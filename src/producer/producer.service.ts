@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class ProducerService {
   private client: ClientProxy;
+  private logger: Logger = new Logger(ProducerService.name);
   constructor(private configService: ConfigService) {
     const urls = this.configService
       .get('RABBIT_URLS', 'amqp://localhost:5672')
@@ -30,6 +31,8 @@ export class ProducerService {
   }
 
   public async publish<T>(queue: string, payload: T) {
-    return await firstValueFrom(this.client.send({ cmd: queue }, payload));
+    const result = await this.client.send({ cmd: queue }, payload);
+    result.subscribe((val) => this.logger.log({ val }));
+    return await firstValueFrom(result);
   }
 }
