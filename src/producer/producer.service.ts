@@ -29,7 +29,7 @@ export class ProducerService {
     } as RmqOptions);
   }
 
-  public async publish<T>(queue: string, payload: T) {
+  public async publish<T>(queue: any, payload: T) {
     this.logger.log(`Publishing to queue: ${queue}`);
     const result = await firstValueFrom(this.client.emit(queue, payload));
     this.logger.log(`Done publishing to queue: ${queue}`);
