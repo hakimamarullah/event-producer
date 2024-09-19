@@ -20,7 +20,6 @@ export class ProducerService {
       transport: Transport.RMQ,
       options: {
         urls: urls,
-        queue: this.configService.get('PRODUCER_QUEUE', 'NONE'),
         maxRetriesPerRequest: this.configService.get('PRODUCER_MAX_RETRY', 3),
         maxReconnectAttempts: this.configService.get(
           'PRODUCER_MAX_RECONNECT',
@@ -31,8 +30,9 @@ export class ProducerService {
   }
 
   public async publish<T>(queue: string, payload: T) {
-    const result = await this.client.send({ cmd: queue }, payload);
-    result.subscribe((val) => this.logger.log({ val }));
-    return await firstValueFrom(result);
+    this.logger.log(`Publishing to queue: ${queue}`);
+    const result = await firstValueFrom(this.client.emit(queue, payload));
+    this.logger.log(`Done publishing to queue: ${queue}`);
+    return result;
   }
 }
