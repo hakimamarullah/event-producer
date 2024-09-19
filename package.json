@@ -1,6 +1,6 @@
 {
   "name": "@hakimamarullah/event-producer",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "",
   "author": "Hakim Amarullah <hakimamarullah> (https://github.com/hakimamarullah)",
   "private": false,
@@ -41,6 +41,7 @@
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
+    "@types/amqplib": "^0.10.5",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
