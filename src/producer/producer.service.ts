@@ -30,6 +30,6 @@ export class ProducerService {
   }
 
   public async publish<T>(queue: string, payload: T) {
-    return await firstValueFrom(this.client.emit(queue, payload));
+    return await firstValueFrom(this.client.send({ cmd: queue }, payload));
   }
 }
